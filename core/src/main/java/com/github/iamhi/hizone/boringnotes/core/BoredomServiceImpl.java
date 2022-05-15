@@ -44,11 +44,26 @@ public record BoredomServiceImpl(
 
     @Override
     public Mono<BoringNoteDTO> updateNote(BoringNoteDTO boringNoteDTO) {
-        return repository.save(boringNoteDTO.toEntity()).map(BoringNoteDTO::fromEntity);
+        return repository
+            .findById(boringNoteDTO.uuid())
+            .map(entity -> populateEntity(entity, boringNoteDTO))
+            .flatMap(repository::save)
+            .map(BoringNoteDTO::fromEntity);
     }
 
     @Override
     public Mono<Void> deleteNote(String ownerUuid, String noteUuid) {
         return repository.deleteByUuidAndOwnerUuid(noteUuid, ownerUuid);
+    }
+
+    private BoringNoteEntity populateEntity(BoringNoteEntity entity, BoringNoteDTO dto) {
+        return new BoringNoteEntity(
+            entity.uuid(),
+            entity.ownerUuid(),
+            (dto.title() != null) ? dto.title() : entity.title(),
+            (dto.content() != null) ? dto.content() : entity.content(),
+            entity.createdAt(),
+            Instant.now()
+        );
     }
 }

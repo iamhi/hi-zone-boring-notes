@@ -4,7 +4,7 @@ import com.github.iamhi.hizone.boringnotes.core.InnocentSupplierService;
 import com.github.iamhi.hizone.boringnotes.core.dto.SheepDTO;
 import com.github.iamhi.hizone.boringnotes.core.dto.UserInputDataDTO;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @Component
 record EchoingDish(
@@ -19,9 +19,9 @@ record EchoingDish(
     }
 
     @Override
-    public Mono<Void> serve(UserInputDataDTO userInputDataDTO, SheepDTO sheepDTO) {
+    public Flux<Void> serve(UserInputDataDTO userInputDataDTO, SheepDTO sheepDTO) {
         supplierService.addMessage(userInputDataDTO.getData().toString(), sheepDTO);
 
-        return Mono.empty();
+        return Flux.empty();
     }
 }
