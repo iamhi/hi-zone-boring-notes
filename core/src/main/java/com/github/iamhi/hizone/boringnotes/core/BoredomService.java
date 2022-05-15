@@ -14,5 +14,5 @@ public interface BoredomService {
 
     Mono<BoringNoteDTO> updateNote(BoringNoteDTO boringNoteDTO);
 
-    Mono<BoringNoteDTO> deleteNote(String ownerUuid, String noteUuid);
+    Mono<Void> deleteNote(String ownerUuid, String noteUuid);
 }

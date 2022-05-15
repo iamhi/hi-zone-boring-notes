@@ -8,7 +8,9 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface BoredomRepository extends ReactiveMongoRepository<BoringNoteEntity, String> {
 
-    Flux<BoringNoteEntity> findByOwnerUuid();
+    Flux<BoringNoteEntity> findByOwnerUuid(String ownerUuid);
 
-    Mono<BoringNoteEntity> findByUuidAndOwnerUuid();
+    Mono<BoringNoteEntity> findByUuidAndOwnerUuid(String uuid, String ownerUuid);
+
+    Mono<Void> deleteByUuidAndOwnerUuid(String uuid, String ownerUuid);
 }
